@@ -1,0 +1,3250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sterling Bank of Asia - A Savings Bank</title>
+    <style>
+        :root {
+            --primary-color: #000080; /* Navy Blue - 60% */
+            --secondary-color: #FFD700; /* Yellow - 30% */
+            --accent-color: #FFD700; /* Yellow for accents */
+            --text-color: #000080; /* Navy Blue for text */
+            --light-text: #4B4B8A; /* Lighter Navy Blue for secondary text */
+            --background-light: #FFFFFF; /* White - 10% */
+            --card-shadow: 0 4px 6px rgba(0, 0, 128, 0.1);
+            --hover-shadow: 0 8px 15px rgba(0, 0, 128, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--background-light);
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(10deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar .logo {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar .logo img {
+            max-width: 80%;
+            height: auto;
+            transition: var(--transition);
+        }
+        
+        .sidebar .logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .sidebar .nav-links {
+            padding: 20px 0;
+        }
+        
+        .sidebar .nav-links li {
+            list-style: none;
+            padding: 12px 25px;
+            transition: var(--transition);
+            margin: 5px 0;
+            border-radius: 0 25px 25px 0;
+        }
+        
+        .sidebar .nav-links li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar .nav-links li a::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .sidebar .nav-links li:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        
+        .sidebar .nav-links li.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .sidebar .nav-links li.active a::before {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        section {
+            background: linear-gradient(135deg, var(--background-light) 0%, #f0f0f0 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            min-height: calc(100vh - 60px);
+            overflow-y: auto;
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+            border: 1px solid rgba(0, 0, 128, 0.1);
+        }
+        
+        section.active {
+            display: block;
+            opacity: 1;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://flingerosphilippines.com/wp-content/uploads/2021/12/Sterling1.png');
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .banner-content {
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .banner-content h1 {
+            color: white;
+            border-bottom: none;
+            margin-bottom: 15px;
+        }
+        
+        .banner-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .banner-content p {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-color);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .button:hover::before {
+            transform: translateX(0);
+        }
+        
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+        }
+        
+        .scroll-to-top:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            display: none;
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        /* Navigation Controls */
+        .page-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+        
+        .page-controls button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .page-controls button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .page-controls button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                padding: 0;
+            }
+            
+            .sidebar.active {
+                width: 250px;
+                padding: 20px 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--light-text);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Card Styles */
+        .card, .profile-card, .csr-card, .metric-card, .principle-card, .structure-card, .policy-card, .disclaimer-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05),
+                        0 6px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 128, 0.05);
+        }
+
+        .card::before, .profile-card::before, .csr-card::before, .metric-card::before, 
+        .principle-card::before, .structure-card::before, .policy-card::before, .disclaimer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .card:hover, .profile-card:hover, .csr-card:hover, .metric-card:hover, 
+        .principle-card:hover, .structure-card:hover, .policy-card:hover, .disclaimer-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1),
+                        0 10px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover::before, .profile-card:hover::before, .csr-card:hover::before, 
+        .metric-card:hover::before, .principle-card:hover::before, .structure-card:hover::before, 
+        .policy-card:hover::before, .disclaimer-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .card-content, .profile-content, .csr-content, .metric-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Icon Styles */
+        .card-icon, .csr-icon, .principle-icon, .structure-icon, .policy-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon, .csr-card:hover .csr-icon, 
+        .principle-card:hover .principle-icon, .structure-card:hover .structure-icon, 
+        .policy-card:hover .policy-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Enhanced Image Styles */
+        .profile-image, .csr-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .profile-image img, .csr-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .profile-image:hover, .csr-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-image:hover img, .csr-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Enhanced Typography */
+        .card h3, .profile-card h3, .csr-card h3, .metric-card h3, 
+        .principle-card h3, .structure-card h3, .policy-card h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .card h3::after, .profile-card h3::after, .csr-card h3::after, 
+        .metric-card h3::after, .principle-card h3::after, .structure-card h3::after, 
+        .policy-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+
+        .card:hover h3::after, .profile-card:hover h3::after, .csr-card:hover h3::after, 
+        .metric-card:hover h3::after, .principle-card:hover h3::after, .structure-card:hover h3::after, 
+        .policy-card:hover h3::after {
+            width: 100px;
+        }
+
+        /* Enhanced List Styles */
+        .card ul, .metric-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .card ul li, .metric-card ul li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--light-text);
+            transition: color 0.3s ease;
+        }
+
+        .card ul li::before, .metric-card ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .card:hover ul li, .metric-card:hover ul li {
+            color: var(--text-color);
+        }
+
+        /* Enhanced Button Styles */
+        .card .button, .csr-card .button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card .button::before, .csr-card .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card .button:hover, .csr-card .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card .button:hover::before, .csr-card .button:hover::before {
+            opacity: 1;
+        }
+
+        .card .button span, .csr-card .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Grid Layouts */
+        .grid-container, .profile-container, .csr-initiatives {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 1rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card, .profile-card, .csr-card, .metric-card, 
+            .principle-card, .structure-card, .policy-card, .disclaimer-card {
+                padding: 1.5rem;
+            }
+
+            .card-icon, .csr-icon, .principle-icon, .structure-icon, .policy-icon {
+                font-size: 2rem;
+                padding: 0.8rem;
+            }
+
+            .grid-container, .profile-container, .csr-initiatives {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        /* Profile Cards */
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .profile-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 4px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-role {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .profile-bio {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Statistics Cards */
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 128, 0.1);
+        }
+
+        .stat-label {
+            color: var(--light-text);
+            font-size: 1.1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            width: calc(50% - 2rem);
+            margin-left: auto;
+            border: 1px solid rgba(0, 0, 128, 0.1);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 24px;
+            height: 24px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            left: -40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: -40px;
+        }
+
+        /* Interactive Elements */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-color);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .button:hover::before {
+            transform: translateX(0);
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .grid-4 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .grid-3, .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 50px);
+                margin-left: 50px;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 50px;
+            }
+
+            .timeline-content::before {
+                left: -40px !important;
+            }
+        }
+
+        /* Enhanced Board of Directors and Management Committee Styles */
+        .board-overview,
+        .management-overview {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding: 2rem;
+        }
+
+        .board-chairman {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .board-chairman .profile-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+        }
+
+        .board-chairman .profile-image {
+            width: 250px;
+            height: 250px;
+            border: 6px solid var(--secondary-color);
+        }
+
+        .board-members {
+            margin-top: 2rem;
+        }
+
+        .board-members h3,
+        .management-level h3 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .board-members h3::after,
+        .management-level h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .profile-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .profile-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 4px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover .profile-image {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+        }
+
+        .profile-card:hover .profile-image img {
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .profile-role {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .profile-bio {
+            color: var(--light-text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: auto;
+        }
+
+        .management-level {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .management-level:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .profile-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .board-chairman .profile-image {
+                width: 200px;
+                height: 200px;
+            }
+
+            .profile-container {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .management-level {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Side Navigation -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/logo.png" alt="Sterling Bank of Asia Logo">
+        </div>
+        <ul class="nav-links">
+            <li class="active"><a href="#home" data-section="home">Home</a></li>
+            <li><a href="#company-background" data-section="company-background">Background</a></li>
+            <li><a href="#corporate-profile" data-section="corporate-profile">Corporate Profile</a></li>
+            <li><a href="#vision-mission" data-section="vision-mission">Vision & Mission</a></li>
+            <li><a href="#branches" data-section="branches">Branches & Offices</a></li>
+            <li><a href="#business-scope" data-section="business-scope">Business Scope</a></li>
+            <li><a href="#products-services" data-section="products-services">Products & Services</a></li>
+            <li><a href="#financial-highlights" data-section="financial-highlights">Financial Highlights</a></li>
+            <li><a href="# " data-section="awards">Awards & Recognitions</a></li>
+            <li><a href="#organizational-structure" data-section="organizational-structure">Organizational Structure</a></li>
+            <li><a href="#board-directors" data-section="board-directors">Board of Directors</a></li>
+            <li><a href="#management-committee" data-section="management-committee">Management Committee</a></li>
+            <li><a href="#capital-structure" data-section="capital-structure">Capital Structure</a></li>
+            <li><a href="#corporate-governance" data-section="corporate-governance">Corporate Governance</a></li>
+            <li><a href="#csr" data-section="csr">Corporate Social Responsibility</a></li>
+            <li><a href="#financial-statement" data-section="financial-statement">Financial Statements</a></li>
+            <li><a href="#team" data-section="team">Our Team</a></li>
+            <li><a href="#references" data-section="references">References</a></li>
+            <li><a href="#disclaimer" data-section="disclaimer">Disclaimer</a></li>
+        </ul>
+    </div>
+    
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Banner Section -->
+        <section id="home" class="banner active">
+            <div class="banner-content">
+                <h1>Sterling Bank of Asia</h1>
+                <h3>A Savings Bank</h3>
+                <p>Your Financial Partner for Life</p>
+            </div>
+        </section>
+
+        <!-- Company Background -->
+        <section id="company-background">
+            <h2>Background of the Company</h2>
+            <p>Sterling Bank of Asia (SBA) is a savings bank in the Philippines, established on March 30, 2007, in response to the government's mandate to create specialized financial institutions that would support the development and growth of the small and medium enterprise (SME) sector. The bank is principally owned by the JTKC Group of Companies, Surewell Equities, and Star Equities, which are engaged in diverse industries ranging from logistics to finance, real estate, manufacturing, and hotel and resort properties.</p>
+            
+            <h3>History</h3>
+            <p>In 2009, SBA expanded its operations by acquiring Centennial Savings Bank, increasing its branch network and customer base. As of 2022, SBA operated 48 branches across the Philippines and was ranked as the sixth-largest thrift bank in the country in terms of total assets.</p>
+            
+            <h3>Head Office</h3>
+            <p>Sterling Bank of Asia<br>
+            Sterling Bank Corporate Center<br>
+            8004 Ortigas Avenue<br>
+            Greenhills, 1500, San Juan, Metro Manila, Philippines<br>
+            Tel: +63 (2) 8535-6300<br>
+            Website: <a href="https://www.sterlingbankasia.com" target="_blank">www.sterlingbankasia.com</a></p>
+        </section>
+
+        <!-- Corporate Profile -->
+        <section id="corporate-profile">
+            <h2>Corporate Profile</h2>
+            <div class="card"> <!-- Add a wrapper div with class "card" -->
+                <p><strong>Sterling Bank of Asia, Inc. (A Savings Bank)</strong> is a privately held savings bank established on March 30, 2007, regulated by the Bangko Sentral ng Pilipinas (BSP). The bank was founded in response to the Philippine government's initiative to support the development and growth of the small and medium enterprise (SME) sector. SBA offers a comprehensive range of financial products and services tailored to SMEs, corporations, and individual clients, including deposits, loans, investments, asset management, and other banking services.</p>
+
+                <h3>Ownership and Affiliations</h3>
+                <p>Sterling Bank of Asia is principally owned by the JTKC Group of Companies, Surewell Equities, and Star Equities. These entities are involved in diverse industries such as logistics, finance, real estate, manufacturing, and hospitality.</p>
+
+                <h3>Notable Affiliates and Associated Companies</h3>
+
+                <h4>JTKC Group of Companies:</h4>
+                <ul>
+                    <li>I-Remit Inc.</li>
+                    <li>TKC Steel Corp.</li>
+                    <li>Discovery Suites</li>
+                    <li>Amorsolo Mansion</li>
+                    <li>Gilarmi Apartments</li>
+                    <li>Mabini Mansion</li>
+                    <li>Boulevard Mansion</li>
+                    <li>JTKC Land</li>
+                    <li>Kent Vinyl Tiles</li>
+                </ul>
+
+                <h4>Surewell Equities:</h4>
+                <ul>
+                    <li>Confed Properties, Inc.</li>
+                    <li>Flexi-Woods, Inc.</li>
+                    <li>Banwood Construction Center</li>
+                    <li>Six Alps Corp.</li>
+                </ul>
+
+                <p>These affiliations enhance SBA's capacity to offer comprehensive financial solutions and contribute to its strategic positioning in the Philippine banking sector.</p>
+                <div class="resource-links">
+                    <a href="https://sterlingbankasia.com/" target="_blank" class="resource-link">
+                        <span class="link-icon">🔗</span>
+                        Corporate Page
+                    </a>
+                </div>
+            </div> <!-- Close the wrapper div -->
+        </section>
+
+        <!-- Vision, Mission, Goals -->
+        <section id="vision-mission">
+            <h2>Vision, Mission, Goals and Core Values</h2>
+            
+            <h3>Vision</h3>
+            <p>Sterling Bank of Asia, the Bank with a Heart, is the new standard for future generations of bankers, driven by integrity and a deliberate will for excellence - a legacy!</p>
+            
+            <h3>Mission</h3>
+            <p>We are committed to exceed customer service expectations. We will actively identify and innovatively respond to their evolving needs.</p>
+            
+            <p>We are propelled by competent and team-oriented professionals in a respectful, caring and nurturing environment where everyone can maximize his potential.</p>
+            
+            <p>We will be responsible stewards of the resources entrusted to us, and we will share the resulting benefits with society.</p>
+            
+            <h3>Core Values</h3>
+            <div class="core-values">
+                <div class="value-item">
+                    <h4>Service Excellence</h4>
+                    <p>The commitment to continuously challenge ourselves to exceed the expectations of our customers by having genuine concern and interest in their needs and circumstances and serving them with a deep sense of responsibility.</p>
+                </div>
+                
+                <div class="value-item">
+                    <h4>Social Consciousness</h4>
+                    <p>The resolve to ensure optimum value on the resources entrusted to us and to share this value with those we serve.</p>
+                </div>
+                
+                <div class="value-item">
+                    <h4>Professionalism</h4>
+                    <p>The dedication to treat all people with respect, fairness, and compassion while continually pursuing the highest levels of knowledge, skills, and expertise.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Branches and Offices -->
+        <section id="branches">
+            <h2>Branches and Offices</h2>
+            
+            <div class="branch-overview">
+                <div class="branch-stats card"> <!-- Added card class -->
+                    <h3>Branch Network Overview</h3>
+                    <p>As of the latest available data, SBA operates <strong>48 branches</strong> nationwide, strategically located to serve our customers across the Philippines.</p>
+                </div>
+
+                <div class="branch-locations card"> <!-- Added card class -->
+                    <h3>Strategic Locations</h3>
+                    <div class="location-grid">
+                        <div class="location-card"> <!-- Can keep location-card for grid layout if needed, or apply card directly -->
+                            <h4>Metro Manila</h4>
+                            <ul>
+                                <li>San Juan</li>
+                                <li>Makati</li>
+                                <li>Quezon City</li>
+                                <li>Manila</li>
+                                <li>Pasig</li>
+                                <li>And more</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="location-card"> <!-- Can keep location-card -->
+                            <h4>Luzon</h4>
+                            <ul>
+                                <li>Baguio City</li>
+                                <li>Legazpi City</li>
+                                <li>Other provincial cities</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="location-card"> <!-- Can keep location-card -->
+                            <h4>Visayas and Mindanao</h4>
+                            <ul>
+                                <li>Major cities in Visayas</li>
+                                <li>Major cities in Mindanao</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="head-office card"> <!-- Added card class -->
+                    <h3>📍 Head Office</h3>
+                    <div class="office-card"> <!-- Can keep office-card -->
+                        <p><strong>Sterling Bank Corporate Center</strong><br>
+                        8004 Ortigas Avenue<br>
+                        Greenhills, San Juan<br>
+                        Metro Manila, Philippines 1500</p>
+                    </div>
+                </div>
+
+                <div class="branch-locator card"> <!-- Added card class -->
+                    <h3>🗺️ Branch Locator Tool</h3>
+                    <p>For detailed information on branch locations, operating hours, and services offered, SBA provides an online Branch and ATM Locator.</p>
+                    
+                    <div class="locator-tools">
+                        <a href="https://sterlingbankasia.com/branch-atm-locator" target="_blank" class="locator-button">
+                            <span>🔗 Branch and ATM Locator</span>
+                        </a>
+                    </div>
+                    
+                    <p class="locator-note">This tool allows users to search for branches and ATMs by region, city, or specific address, ensuring convenient access to banking services.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Scope -->
+        <section id="business-scope">
+            <h2>Scope of Business/Operation</h2>
+            <p>Sterling Bank of Asia (SBA) operates as a full-service savings bank in the Philippines, offering a comprehensive range of financial products and services tailored to meet the needs of individuals, small and medium enterprises (SMEs), and corporate clients.</p>
+            
+            <div class="business-areas">
+                <div class="business-card">
+                    <div class="business-icon">🏦</div>
+                    <h3>1. Retail and Consumer Banking</h3>
+                    <p>SBA provides various deposit products, including savings accounts, checking accounts, and time deposits, designed to cater to individual clients' financial needs. The bank also offers consumer loans, such as auto loans, home loans, and personal loans, facilitating clients' access to credit for personal and household purposes.</p>
+                </div>
+                
+                <div class="business-card">
+                    <div class="business-icon">💼</div>
+                    <h3>2. SME and Corporate Banking</h3>
+                    <p>Committed to supporting the growth of SMEs, SBA offers tailored financial solutions, including business loans, cash management services, and trade financing. The bank's services are designed to address the unique challenges faced by SMEs, providing them with the necessary tools to expand and thrive in a competitive market.</p>
+                </div>
+                
+                <div class="business-card">
+                    <div class="business-icon">📱</div>
+                    <h3>3. Digital Banking Services</h3>
+                    <p>Embracing technological advancements, SBA offers digital banking platforms that enable clients to manage their finances conveniently. Through online and mobile banking services, clients can perform various transactions, such as fund transfers, bill payments, and account inquiries, enhancing their banking experience.</p>
+                </div>
+                
+                <div class="business-card">
+                    <div class="business-icon">📈</div>
+                    <h3>4. Investment and Trust Services</h3>
+                    <p>SBA provides investment opportunities and trust services to clients seeking to grow their wealth. The bank offers products like high-yielding investment accounts and asset management services, assisting clients in achieving their financial goals.</p>
+                </div>
+                
+                <div class="business-card">
+                    <div class="business-icon">🌍</div>
+                    <h3>5. International Banking</h3>
+                    <p>To facilitate international transactions, SBA offers services such as foreign currency deposits and remittance services. These services are designed to meet the needs of clients engaged in global trade and overseas employment, ensuring efficient and secure cross-border financial transactions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products and Services -->
+        <section id="products-services">
+            <h2>Products and Services</h2>
+            
+            <div class="products-container">
+                <div class="product-category card"> <!-- Added card class -->
+                    <div class="category-header">
+                        <div class="category-icon">🏦</div>
+                        <h3>Personal Banking</h3>
+                    </div>
+                    
+                    <div class="product-group">
+                        <h4>Deposit Products</h4>
+                        <ul>
+                            <li>Savings Accounts: Low initial deposit and high-interest rate savings accounts</li>
+                            <li>Time Deposits: Competitive rates and high-interest time deposit accounts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-group">
+                        <h4>Investment and Trust Services</h4>
+                        <ul>
+                            <li>Personal Living Trust</li>
+                            <li>Personal Pension Fund</li>
+                            <li>Investment Management Account (IMA): Manage, preserve, and grow your wealth through these personal services</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-category card"> <!-- Added card class -->
+                    <div class="category-header">
+                        <div class="category-icon">🏢</div>
+                        <h3>Business Banking</h3>
+                    </div>
+                    
+                    <div class="product-group">
+                        <h4>Business Loans</h4>
+                        <p>A variety of business loan products designed to support companies in their growth or expansion phases.</p>
+                    </div>
+                </div>
+                
+                <div class="product-category card"> <!-- Added card class -->
+                    <div class="category-header">
+                        <div class="category-icon">💼</div>
+                        <h3>Treasury and Investment Services</h3>
+                    </div>
+                    
+                    <div class="product-group">
+                        <p>An extensive portfolio of Treasury products and services, including the sale of fixed income securities such as corporate bonds and government securities.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="learn-more">
+                <p>For more detailed information on these products and services, visit our official website:</p>
+                <a href="https://www.sterlingbankasia.com" target="_blank" class="website-link">Visit Sterling Bank of Asia Website</a>
+            </div>
+        </section>
+
+        <!-- Financial Highlights -->
+        <section id="financial-highlights">
+            <h2>Operational and Financial Highlights (2023)</h2>
+            
+            <div class="financial-container">
+                <div class="financial-category">
+                    <div class="category-header">
+                        <div class="category-icon">🏦</div>
+                        <h3>Financial Performance</h3>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Total Assets</h4>
+                        <div class="metric-value">₱40.32 Billion</div>
+                        <p>As of December 31, 2022, SBA reported total assets amounting to ₱40.32 billion, positioning it as the 6th largest thrift bank in the Philippines.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Branch Network</h4>
+                        <div class="metric-value">48 Branches</div>
+                        <p>The bank maintained a network of 48 branches across the country, ensuring accessibility to its services nationwide.</p>
+                    </div>
+                </div>
+                
+                <div class="financial-category">
+                    <div class="category-header">
+                        <div class="category-icon">📈</div>
+                        <h3>Operational Developments</h3>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Digital Banking Initiatives</h4>
+                        <p>SBA continued to enhance its digital banking platforms, aiming to provide customers with more convenient and secure online banking experiences.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>SME Support</h4>
+                        <p>The bank sustained its focus on supporting small and medium enterprises (SMEs) by offering tailored financial products and services to facilitate their growth and development.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="financial-disclosures">
+                <p>For more detailed financial statements and disclosures, you may refer to:</p>
+                <div class="disclosure-links">
+                    <a href="https://www.bsp.gov.ph/Statistics/Financial%20Statements/Thrift/STERLING%20BANK%20OF%20ASIA%20INC%20(A%20SAVINGS%20BANK).aspx" target="_blank" class="disclosure-link">
+                        <span class="link-icon">📊</span>
+                        Bangko Sentral ng Pilipinas (BSP) Official Website
+                    </a>
+                    <a href="https://sterlingbankasia.com/company-disclosures" target="_blank" class="disclosure-link">
+                        <span class="link-icon">📄</span>
+                        SBA Company Disclosures
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Awards -->
+        <section id="awards">
+            <h2>Awards and Recognitions</h2>
+            
+            <div class="awards-intro">
+                <p>Over the years, Sterling Bank of Asia's consistent delivery of exceptional, relationship-based service merited the Bank various awards from different award-giving bodies such as 2008 Philippine Quill Merit Award, 2013 Best Performer in Visa Prepaid Payment Volume Growth in the Philippines, 2013 Highest Payment Volume Visa Prepaid User, 2013 to 2018 BSP Outstanding PhilPass Participant Servicing Customer ePayments (Thrift Bank Category), and 2016 BSP Gold Hall of Fame Awardee Outstanding PhilPass Participant Servicing Customer ePayments (Thrift Bank Category) -- a testament that the Bank is committed to provide its clients with exceptional service. After all, service excellence and professionalism are at the core of the Bank's corporate values.</p>
+            </div>
+            
+            <div class="awards-container">
+                <div class="award-card">
+                    <div class="award-header">
+                        <div class="award-icon">🏆</div>
+                        <h3>BNY Mellon Straight-Through Processing (STP) Award</h3>
+                    </div>
+                    <div class="award-years">2020, 2021, 2022, 2023, 2024</div>
+                    <p>SBA has been consistently recognized for its exceptional payment formatting performance in executing MT103/MT202 payments with accuracy and speed. The STP Award is a testament to SBA's commitment to excellence in payment processing.</p>
+                    <div class="award-sources">
+                        <a href="https://sterlingbankasia.com/news/sterling-bank-asia-receives-bny-mellon-straight-through-processing-award-2022" target="_blank" class="source-link">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-header">
+                        <div class="award-icon">🏅</div>
+                        <h3>BSP Outstanding Stakeholders Recognition</h3>
+                    </div>
+                    <div class="award-years">2022, 2023, 2024</div>
+                    <p>SBA was honored by the Bangko Sentral ng Pilipinas (BSP) as one of its Outstanding Stakeholders for three consecutive years. This recognition underscores SBA's exceptional performance in sourcing its total currency requirements through the Cash Service Alliance (CSA), achieving the highest percentage among all CSA-participating banks.</p>
+                    <div class="award-sources">
+                        <a href="https://sterlingbankasia.com/news/sterling-bank-asia-was-named-one-bsps-outstanding-stakeholders-3-consecutive-years" target="_blank" class="source-link">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-header">
+                        <div class="award-icon">🌟</div>
+                        <h3>Top 10 Taxpayer in San Juan City</h3>
+                    </div>
+                    <div class="award-years">2025</div>
+                    <p>SBA was recognized as one of San Juan City's Top 10 Taxpayers during the Araw ng San Juan 2025: Pagpaparangal at Pagkilala. This acknowledgment highlights SBA's commitment to contributing to the city's economic growth and development through responsible tax compliance.</p>
+                    <div class="award-sources">
+                        <a href="https://manilastandard.net/spotlight/314582384/sterling-bank-of-asia-recognized-as-one-of-san-juan-citys-top-10-taxpayers.html" target="_blank" class="source-link">Read More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="awards-gallery">
+                <h3>Awards Gallery</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-02/sterling_bank_awards_3.jpg" alt="Sterling Bank Awards 2023">
+                    </div>
+                    <!-- <div class="gallery-item">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/inline-images/sterling_bank_news2024award_0.jpg" alt="Sterling Bank Awards 2024">
+                    </div> -->
+                    <div class="gallery-item">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOCGO1mnQBcZKF0z0XdJGEOG9q7gekKTn0W6i7U1UWybPhiSJTqhhir-kciJ0CdoNV-RxDZAMAQ2CO-QBll0yiPwUGdaAiZCIu30T3YlRTM-2Aul2M5u58Att-tXdB2LbmyG9OJvfzStyKHgbcf-jIqx_yl_BoFSIX3f3-5hGIu78SG4Ehp88bZnpKsp4/w1200-h630-p-k-no-nu/455033523_10226627886018647_5049326584779846012_n.jpg" alt="Sterling Bank Recognition">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://cdn.manilastandard.net/wp-content/uploads/2025/04/Sterling-Bank-of-Asia.jpg" alt="Sterling Bank San Juan Recognition">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="additional-references">
+                <h3>Additional References</h3>
+                <div class="reference-links">
+                    <a href="https://www.julianplusbethany.com/2024/08/sterling-bank-of-asia-recognized-as-one.html" target="_blank" class="reference-link">
+                        <span class="link-icon">📰</span>
+                        Julian Plus Bethany Article
+                    </a>
+                    <a href="https://sterlingbankasia.com/news/sterling-bank-asia-was-named-one-bsps-outstanding-stakeholders-3-consecutive-years" target="_blank" class="reference-link">
+                        <span class="link-icon">📄</span>
+                        SBA News Release
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organizational Structure -->
+        <section id="organizational-structure">
+            <h2>Organizational Structure (2024)</h2>
+            
+            <div class="org-overview">
+                <h3>Executive Leadership</h3>
+                <div class="org-grid">
+                    <div class="org-card">
+                        <div class="org-icon">👨‍💼</div>
+                        <h4>President & CEO</h4>
+                        <p>Cecilio Paul D. San Pedro</p>
+                    </div>
+                    
+                    <div class="org-card">
+                        <div class="org-icon">👨‍💼</div>
+                        <h4>Executive Vice Presidents</h4>
+                        <p>Ralph B. Cadiz and others</p>
+                    </div>
+                    
+                    <div class="org-card">
+                        <div class="org-icon">👨‍💼</div>
+                        <h4>Senior Vice Presidents</h4>
+                        <p>Various individuals overseeing key departments</p>
+                    </div>
+                    
+                    <div class="org-card">
+                        <div class="org-icon">👨‍💼</div>
+                        <h4>First Vice Presidents</h4>
+                        <p>Multiple roles across different functions</p>
+                    </div>
+                </div>
+                
+                <h3>Key Functional Leadership</h3>
+                <div class="org-grid">
+                    <div class="org-card">
+                        <div class="org-icon">🛡️</div>
+                        <h4>Chief Risk Officer</h4>
+                        <p>Kim Pasion</p>
+                    </div>
+                    
+                    <div class="org-card">
+                        <div class="org-icon">💰</div>
+                        <h4>Anti-Money Laundering Officer</h4>
+                        <p>Aljon Sta Ana</p>
+                    </div>
+                    
+                    <div class="org-card">
+                        <div class="org-icon">🔒</div>
+                        <h4>Head of IT Risk and Information Security</h4>
+                        <p>Jay Maru Juanillo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="org-resources">
+                <h3>Additional Resources</h3>
+                <div class="resource-links">
+                    <a href="https://www.sterlingbankasia.com/corporate-governance" target="_blank" class="resource-link">
+                        <span class="link-icon">📄</span>
+                        Corporate Governance
+                    </a>
+                    <a href="https://www.sterlingbankasia.com/management-team" target="_blank" class="resource-link">
+                        <span class="link-icon">👥</span>
+                        Management Team
+                    </a>
+                    <a href="https://theorg.com/org/sterling-bank-of-asia" target="_blank" class="resource-link">
+                        <span class="link-icon">🏢</span>
+                        Organizational Chart
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Board of Directors -->
+        <section id="board-directors">
+            <h2>Board of Directors (2024)</h2>
+            
+            <div class="board-overview">
+                <div class="board-chairman">
+                    <div class="profile-card">
+                        <div class="profile-image">
+                            <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Tiu-Ruben.jpg" alt="Ruben C. Tiu">
+                        </div>
+                        <h3>Ruben C. Tiu</h3>
+                        <p>Chairman of the Board</p>
+                    </div>
+                </div>
+                
+                <div class="board-members">
+                    <h3>Board Members</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/San-Pedro.jpg" alt="Cecilio D. San Pedro">
+                            </div>
+                            <h3>Cecilio D. San Pedro</h3>
+                            <p>Director, President & CEO</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Chua.jpg" alt="William L. Chua">
+                            </div>
+                            <h3>William L. Chua</h3>
+                            <p>Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Juarez-Custodio.jpg" alt="Patricia Juarez-Custodio">
+                            </div>
+                            <h3>Patricia Juarez-Custodio</h3>
+                            <p>Independent Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Macasaet.jpg" alt="Vicente C. Macasaet Jr.">
+                            </div>
+                            <h3>Vicente C. Macasaet Jr.</h3>
+                            <p>Independent Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Samson.jpg" alt="Antonio R. Samson">
+                            </div>
+                            <h3>Antonio R. Samson</h3>
+                            <p>Independent Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Tan.jpg" alt="Atty. A. Bayani K. Tan">
+                            </div>
+                            <h3>Atty. A. Bayani K. Tan</h3>
+                            <p>Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Tiu-John.jpg" alt="John Kacho Y. Tiu, Jr.">
+                            </div>
+                            <h3>John Kacho Y. Tiu, Jr.</h3>
+                            <p>Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Vasay.jpg" alt="Nestor H. Vasay">
+                            </div>
+                            <h3>Nestor H. Vasay</h3>
+                            <p>Independent Director</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Yengko.jpg" alt="Ignatius F. Yenko">
+                            </div>
+                            <h3>Ignatius F. Yenko</h3>
+                            <p>Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Management Committee -->
+        <section id="management-committee">
+            <h2>Management Team (2024)</h2>
+            
+            <div class="management-overview">
+                <!-- President & CEO -->
+                <div class="management-level">
+                    <h3>President & CEO</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/San-Pedro.jpg" alt="Cecilio D. San Pedro">
+                            </div>
+                            <h3>Cecilio D. San Pedro</h3>
+                            <p>President and CEO</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Executive Vice Presidents -->
+                <div class="management-level">
+                    <h3>Executive Vice Presidents</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Cadiz.jpg" alt="Ralph B. Cadiz">
+                            </div>
+                            <h3>Ralph B. Cadiz</h3>
+                            <p>Executive Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Hari-Ong.jpg" alt="Benson J. Hari-Ong">
+                            </div>
+                            <h3>Benson J. Hari-Ong</h3>
+                            <p>Executive Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Lee.jpg" alt="Clayton T. Lee">
+                            </div>
+                            <h3>Clayton T. Lee</h3>
+                            <p>Executive Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Mayor.jpg" alt="Luisito S. Mayor">
+                            </div>
+                            <h3>Luisito S. Mayor</h3>
+                            <p>Executive Vice President</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Senior Vice Presidents -->
+                <div class="management-level">
+                    <h3>Senior Vice Presidents</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Aninon.jpg" alt="Ruth M. Aniñon">
+                            </div>
+                            <h3>Ruth M. Aniñon</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Ballesteros.jpg" alt="Cherie C. Ballesteros">
+                            </div>
+                            <h3>Cherie C. Ballesteros</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Galang.jpg" alt="Girlie C. Galang">
+                            </div>
+                            <h3>Girlie C. Galang</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Ison.jpg" alt="Jose S. Ison, Jr.">
+                            </div>
+                            <h3>Jose S. Ison, Jr.</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Mendez.jpg" alt="Mary Rose U. Mendez">
+                            </div>
+                            <h3>Mary Rose U. Mendez</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Pasion.jpg" alt="Kim McIvans V. Pasion">
+                            </div>
+                            <h3>Kim McIvans V. Pasion</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Quianzon.jpg" alt="Candice P. Quianzon">
+                            </div>
+                            <h3>Candice P. Quianzon</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Rubio.jpg" alt="Dalisay N. Rubio">
+                            </div>
+                            <h3>Dalisay N. Rubio</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Tan.jpg" alt="Enrique D. Tan">
+                            </div>
+                            <h3>Enrique D. Tan</h3>
+                            <p>Senior Vice President</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- First Vice Presidents -->
+                <div class="management-level">
+                    <h3>First Vice Presidents</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Alcala.jpg" alt="Felisa B. Alcala">
+                            </div>
+                            <h3>Felisa B. Alcala</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Cervantes.jpg" alt="Grego S. Cervantes, Jr.">
+                            </div>
+                            <h3>Grego S. Cervantes, Jr.</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Danao.jpg" alt="Antonio C. Danao">
+                            </div>
+                            <h3>Antonio C. Danao</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Guevara.jpg" alt="Dan C. Guevara">
+                            </div>
+                            <h3>Dan C. Guevara</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Hung.jpg" alt="Henry G. Hung">
+                            </div>
+                            <h3>Henry G. Hung</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/QAmante.jpg" alt="Leila C. Quevedo-Amante">
+                            </div>
+                            <h3>Leila C. Quevedo-Amante</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Rivera.jpg" alt="Josefina S. Rivera">
+                            </div>
+                            <h3>Josefina S. Rivera</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Santos%20R.jpg" alt="Ronald C. Santos">
+                            </div>
+                            <h3>Ronald C. Santos</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Siongco.jpg" alt="Arlene N. Siongco">
+                            </div>
+                            <h3>Arlene N. Siongco</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Soriano.jpg" alt="Atty. Alma Valerie C. Soriano">
+                            </div>
+                            <h3>Atty. Alma Valerie C. Soriano</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Sulit.jpg" alt="Joseph T. Sulit">
+                            </div>
+                            <h3>Joseph T. Sulit</h3>
+                            <p>First Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Uy-Tan.jpg" alt="Lisa T. Uy Tan">
+                            </div>
+                            <h3>Lisa T. Uy Tan</h3>
+                            <p>First Vice President</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vice Presidents -->
+                <div class="management-level">
+                    <h3>Vice Presidents</h3>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Claudine Monette P. Antonio">
+                            </div>
+                            <h3>Claudine Monette P. Antonio</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Glenn Ivan O. Arreza">
+                            </div>
+                            <h3>Glenn Ivan O. Arreza</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Bumbay.jpg" alt="Raquel C. Bumbay">
+                            </div>
+                            <h3>Raquel C. Bumbay</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Calingco.jpg" alt="Maurice Mario R. Calingo">
+                            </div>
+                            <h3>Maurice Mario R. Calingo</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Carlos.jpg" alt="Marc Christopher U. Carlos">
+                            </div>
+                            <h3>Marc Christopher U. Carlos</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Doris A. Chavez">
+                            </div>
+                            <h3>Doris A. Chavez</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/De-Acosta.jpg" alt="Reina Filipina V. Deacosta">
+                            </div>
+                            <h3>Reina Filipina V. Deacosta</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Mary Grace H. Enriquez">
+                            </div>
+                            <h3>Mary Grace H. Enriquez</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-08/Francisco.jpg" alt="Marvin Bryan S. Francisco">
+                            </div>
+                            <h3>Marvin Bryan S. Francisco</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Rinaldi.jpg" alt="Rinaldi O. Gonzales">
+                            </div>
+                            <h3>Rinaldi O. Gonzales</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Labay.jpg" alt="Marilou B. Labay">
+                            </div>
+                            <h3>Marilou B. Labay</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2025-05/Liwanes.jpg" alt="Dominic L. Liwanes">
+                            </div>
+                            <h3>Dominic L. Liwanes</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Peralta.jpg" alt="Ethel L. Peralta">
+                            </div>
+                            <h3>Ethel L. Peralta</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Reyes.jpg" alt="Norwina L. Reyes">
+                            </div>
+                            <h3>Norwina L. Reyes</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Rachelle Eileen S. Reyes">
+                            </div>
+                            <h3>Rachelle Eileen S. Reyes</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Rodrigo.jpg" alt="Michelle R. Rodrigo">
+                            </div>
+                            <h3>Michelle R. Rodrigo</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2025-05/Seachon.jpg" alt="Art Ryan L. Seachon">
+                            </div>
+                            <h3>Art Ryan L. Seachon</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Samson.jpg" alt="Ma. Ruby N. Samson">
+                            </div>
+                            <h3>Ma. Ruby N. Samson</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2020-05/management-placeholder.jpg" alt="Melanie M. Tan">
+                            </div>
+                            <h3>Melanie M. Tan</h3>
+                            <p>Vice President</p>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-09/Yang.jpg" alt="Ariel F. Yang">
+                            </div>
+                            <h3>Ariel F. Yang</h3>
+                            <p>Vice President</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capital Structure -->
+        <section id="capital-structure">
+            <h2>Capital Structure and Adequacy (2023)</h2>
+            
+            <div class="capital-overview">
+                <h3>Capital Composition</h3>
+                <p>SBA's capital is primarily composed of:</p>
+                
+                <div class="capital-grid">
+                    <div class="capital-card">
+                        <div class="capital-icon">💰</div>
+                        <h4>Common Equity Tier 1 (CET1) Capital</h4>
+                        <p>This includes the bank's core capital, such as paid-up capital and retained earnings.</p>
+                    </div>
+                    
+                    <div class="capital-card">
+                        <div class="capital-icon">📈</div>
+                        <h4>Tier 2 Capital</h4>
+                        <p>This comprises supplementary capital elements, including subordinated debt and other instruments that provide additional loss-absorbing capacity.</p>
+                    </div>
+                </div>
+                
+                <p class="capital-note">The bank's capital structure is designed to support its risk-weighted assets and ensure compliance with regulatory capital requirements.</p>
+            </div>
+            
+            <div class="capital-adequacy">
+                <h3>Capital Adequacy</h3>
+                <p>As of December 31, 2023, SBA's capital adequacy ratios are as follows:</p>
+                
+                <div class="ratio-grid">
+                    <div class="ratio-card">
+                        <h4>Leverage Ratio</h4>
+                        <div class="ratio-value">7.54%</div>
+                        <p>This indicates a strong capital base relative to total exposure.</p>
+                    </div>
+                </div>
+                
+                <p class="adequacy-note">These ratios reflect SBA's adherence to the regulatory minimums set by the Bangko Sentral ng Pilipinas (BSP), ensuring the bank's ability to absorb potential losses and maintain financial stability.</p>
+            </div>
+            
+            <div class="performance-metrics">
+                <h3>Performance and Growth</h3>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <h4>Net Income</h4>
+                        <p>SBA has experienced a substantial increase in net income, reflecting effective management and operational efficiency.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">📈</div>
+                        <h4>Asset Growth</h4>
+                        <p>The bank's total assets have grown, positioning it as the sixth-largest thrift bank in the Philippines as of 2022.</p>
+                    </div>
+                </div>
+                
+                <p class="growth-note">This growth is supported by a solid capital foundation, enabling SBA to expand its operations and enhance shareholder value.</p>
+            </div>
+            
+            <div class="financial-disclosures">
+                <h3>Additional Resources</h3>
+                <div class="disclosure-links">
+                    <a href="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-05/2023%20SBA%20AFS.pdf" target="_blank" class="disclosure-link">
+                        <span class="link-icon">📄</span>
+                        2023 Audited Financial Statements
+                    </a>
+                    <a href="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-06/2023SBAAnnualReport.pdf" target="_blank" class="disclosure-link">
+                        <span class="link-icon">📊</span>
+                        2023 Annual Report
+                    </a>
+                    <a href="https://sterlingbankasia.com/company-disclosures" target="_blank" class="disclosure-link">
+                        <span class="link-icon">🔗</span>
+                        Company Disclosures
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .capital-overview,
+                .capital-adequacy,
+                .performance-metrics {
+                    margin-bottom: 3rem;
+                }
+                
+                .capital-grid,
+                .ratio-grid,
+                .metrics-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin: 1.5rem 0;
+                }
+                
+                .capital-card,
+                .ratio-card,
+                .metric-card {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.3s ease;
+                }
+                
+                .capital-card:hover,
+                .ratio-card:hover,
+                .metric-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .capital-icon,
+                .metric-icon {
+                    font-size: 2rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .ratio-value {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #022d62;
+                    margin: 1rem 0;
+                }
+                
+                .capital-note,
+                .adequacy-note,
+                .growth-note {
+                    font-style: italic;
+                    color: #666;
+                    margin-top: 1rem;
+                }
+                
+                .financial-disclosures {
+                    margin-top: 3rem;
+                    padding: 2rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .disclosure-links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .disclosure-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: #022d62;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .disclosure-link:hover {
+                    background: #0a4085;
+                }
+                
+                .link-icon {
+                    font-size: 1.2rem;
+                }
+            </style>
+        </section>
+
+        <!-- Corporate Governance -->
+        <section id="corporate-governance">
+            <h2>Corporate Governance (2025)</h2>
+            
+            <div class="governance-intro">
+                <p>As of 2025, Sterling Bank of Asia (SBA) upholds a strong commitment to corporate governance, ensuring transparency, accountability, and ethical conduct in all its operations.</p>
+            </div>
+            
+            <div class="governance-framework">
+                <h3>🏛️ Corporate Governance Framework</h3>
+                <p>SBA's corporate governance is anchored on the principles of:</p>
+                
+                <div class="principles-grid">
+                    <div class="principle-card">
+                        <div class="principle-icon">✨</div>
+                        <h4>Integrity</h4>
+                        <p>Maintaining the highest standards of professional and ethical conduct</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-icon">🔍</div>
+                        <h4>Transparency</h4>
+                        <p>Ensuring clear and open communication with stakeholders</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-icon">⭐</div>
+                        <h4>Excellence</h4>
+                        <p>Striving for the highest quality in all operations</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-icon">📋</div>
+                        <h4>Accountability</h4>
+                        <p>Taking responsibility for decisions and actions</p>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-icon">⚖️</div>
+                        <h4>Fairness</h4>
+                        <p>Treating all stakeholders with equity and respect</p>
+                    </div>
+                </div>
+                
+                <p class="framework-note">These principles guide the bank's operations and decision-making processes, fostering trust among stakeholders and ensuring compliance with regulatory standards.</p>
+            </div>
+            
+            <div class="governance-structure">
+                <h3>📄 Governance Structure</h3>
+                
+                <div class="structure-grid">
+                    <div class="structure-card">
+                        <div class="structure-icon">👥</div>
+                        <h4>Board of Directors</h4>
+                        <p>The Board is responsible for overseeing the bank's strategic direction, ensuring that management acts in the best interests of shareholders and other stakeholders.</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">🏛️</div>
+                        <h4>Corporate Governance Committee (CorGov)</h4>
+                        <p>This committee assists the Board in fulfilling its governance responsibilities, including overseeing the periodic assessment of board performance and ensuring adherence to governance policies.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="policies-compliance">
+                <h3>📚 Policies and Compliance</h3>
+                
+                <div class="policies-grid">
+                    <div class="policy-card">
+                        <div class="policy-icon">📖</div>
+                        <h4>Corporate Governance Manual</h4>
+                        <p>SBA adheres to a comprehensive Corporate Governance Manual that aligns with the Bangko Sentral ng Pilipinas (BSP) regulations and the Securities and Exchange Commission (SEC) guidelines. This manual outlines the roles and responsibilities of the Board, management, and other key personnel.</p>
+                    </div>
+                    
+                    <div class="policy-card">
+                        <div class="policy-icon">🛡️</div>
+                        <h4>Financial Consumer Protection Policy</h4>
+                        <p>The bank has implemented policies to protect financial consumers, ensuring that all customer interactions are conducted with fairness and transparency. These policies are reviewed and approved by the Board to align with the bank's governance framework.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="governance-resources">
+                <h3>Additional Resources</h3>
+                <div class="resource-links">
+                    <a href="https://sterlingbankasia.com/corporate-governance" target="_blank" class="resource-link">
+                        <span class="link-icon">🔗</span>
+                        Corporate Governance Page
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .governance-intro {
+                    margin-bottom: 2rem;
+                    font-size: 1.1em;
+                    line-height: 1.6;
+                }
+                
+                .governance-framework,
+                .governance-structure,
+                .policies-compliance {
+                    margin-bottom: 3rem;
+                }
+                
+                .principles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                    margin: 1.5rem 0;
+                }
+                
+                .structure-grid,
+                .policies-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin: 1.5rem 0;
+                }
+                
+                .principle-card,
+                .structure-card,
+                .policy-card {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.3s ease;
+                }
+                
+                .principle-card:hover,
+                .structure-card:hover,
+                .policy-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .principle-icon,
+                .structure-icon,
+                .policy-icon {
+                    font-size: 2rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .framework-note {
+                    font-style: italic;
+                    color: #666;
+                    margin-top: 1rem;
+                }
+                
+                .governance-resources {
+                    margin-top: 3rem;
+                    padding: 2rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .resource-links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .resource-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: #022d62;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .resource-link:hover {
+                    background: #0a4085;
+                }
+                
+                .link-icon {
+                    font-size: 1.2rem;
+                }
+            </style>
+        </section>
+
+        <!-- CSR -->
+        <section id="csr">
+            <h2>Corporate Social Responsibility (CSR) Initiatives (2024)</h2>
+            
+            <div class="csr-intro">
+                <p>As of 2024, Sterling Bank of Asia (SBA) continues to uphold its commitment to corporate social responsibility (CSR) through various initiatives that focus on environmental sustainability, financial inclusion, and community development.</p>
+            </div>
+            
+            <div class="csr-initiatives">
+                <div class="csr-card">
+                    <div class="csr-icon">🌱</div>
+                    <h3>Kind Heart Gives – Environmental Advocacy</h3>
+                    <p>SBA's flagship CSR program, Kind Heart Gives, aims to contribute to a greener Philippines by promoting environmental awareness and sustainability. In 2024, the bank collaborated with the Department of Environment and Natural Resources (DENR) in a tree planting initiative to restore denuded forests and enhance biodiversity.</p>
+                    <div class="csr-image">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-10/sterling_bank_CSR-health.jpg" alt="Kind Heart Gives Initiative">
+                    </div>
+                </div>
+                
+                <div class="csr-card">
+                    <div class="csr-icon">🌳</div>
+                    <h3>Masungi Georeserve Conservation</h3>
+                    <p>Continuing its environmental efforts, SBA partnered with the Masungi Georeserve in 2024 for conservation activities. Employees participated in restoring the denuded forests around the reserve, supporting the preservation of biodiversity and the protection of critical ecosystems.</p>
+                    <div class="csr-image">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-11/sterling_bank_SBA-masungi2.jpg" alt="Masungi Georeserve Conservation">
+                    </div>
+                </div>
+                
+                <div class="csr-card">
+                    <div class="csr-icon">💰</div>
+                    <h3>Financial Inclusion and Literacy Programs</h3>
+                    <p>SBA is dedicated to promoting financial literacy and inclusion, particularly among underserved communities. The bank conducts workshops and seminars to educate individuals on managing finances, understanding banking products, and making informed financial decisions. These initiatives aim to empower communities and foster economic growth.</p>
+                    <div class="csr-image">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-02/sterling_bank_CSR-bethelight.jpg" alt="Financial Literacy Program">
+                    </div>
+                </div>
+                
+                <div class="csr-card">
+                    <div class="csr-icon">🏥</div>
+                    <h3>Support for Healthcare Initiatives</h3>
+                    <p>In line with its commitment to community well-being, SBA supports various healthcare initiatives. The bank has been involved in providing medical assistance and resources to underserved areas, ensuring that healthcare services are accessible to those in need.</p>
+                    <div class="csr-image">
+                        <img src="https://sbamedia.sterlingbankasia.com/sites/default/files/2023-02/sterling_bank_CSR-parol.jpg" alt="Healthcare Initiatives">
+                    </div>
+                </div>
+                
+                <div class="csr-card">
+                    <div class="csr-icon">🎓</div>
+                    <h3>Educational Support and Scholarships</h3>
+                    <p>SBA recognizes the importance of education in community development. The bank offers scholarships and educational assistance programs to deserving students, enabling them to pursue higher education and contribute positively to society.</p>
+                    <div class="csr-image">
+                        <img src="https://www.kcl.ac.uk/newimages/thumbnails/raheem-sterling-foundation.x733ee822.jpg?w=782&h=440&crop=780,440,1,0" alt="Educational Support Programs">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="csr-resources">
+                <h3>Additional Resources</h3>
+                <div class="resource-links">
+                    <a href="https://www.sterlingbankasia.com/corporate-advocacy" target="_blank" class="resource-link">
+                        <span class="link-icon">📄</span>
+                        Corporate Advocacy Overview
+                    </a>
+                    <a href="https://www.sterlingbankasia.com/corporate-advocacy/sterling-bank-asia-returns-masungi-georeserve" target="_blank" class="resource-link">
+                        <span class="link-icon">🌳</span>
+                        Masungi Georeserve Conservation
+                    </a>
+                    <a href="https://sterlingbankasia.com/corporate-advocacy/build-light-be-light" target="_blank" class="resource-link">
+                        <span class="link-icon">💡</span>
+                        Build the Light. Be the Light.
+                    </a>
+                    <a href="https://sterlingbankasia.com/corporate-advocacy/sterling-bank-asia-gives-back-san-juan-city-health-care-workers" target="_blank" class="resource-link">
+                        <span class="link-icon">🏥</span>
+                        Support for Healthcare Workers
+                    </a>
+                    <a href="https://sterlingbankasia.com/corporate-advocacy/sterling-bank-asia-supports-san-juans-bjmp-livelihood-program" target="_blank" class="resource-link">
+                        <span class="link-icon">💼</span>
+                        BJMP Livelihood Program
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .csr-intro {
+                    margin-bottom: 2rem;
+                    font-size: 1.1em;
+                    line-height: 1.6;
+                }
+                
+                .csr-initiatives {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin: 2rem 0;
+                }
+                
+                .csr-card {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.3s ease;
+                }
+                
+                .csr-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .csr-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .csr-card h3 {
+                    color: #022d62;
+                    margin-bottom: 1rem;
+                    font-size: 1.3em;
+                }
+                
+                .csr-card p {
+                    color: #555;
+                    line-height: 1.6;
+                    margin-bottom: 1.5rem;
+                }
+                
+                .csr-image {
+                    width: 100%;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+                
+                .csr-image img {
+                    width: 100%;
+                    height: auto;
+                    transition: transform 0.3s ease;
+                }
+                
+                .csr-image:hover img {
+                    transform: scale(1.05);
+                }
+                
+                .csr-resources {
+                    margin-top: 3rem;
+                    padding: 2rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .resource-links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .resource-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: #022d62;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .resource-link:hover {
+                    background: #0a4085;
+                }
+                
+                .link-icon {
+                    font-size: 1.2rem;
+                }
+            </style>
+        </section>
+
+        <!-- Financial Statement -->
+        <section id="financial-statement">
+            <h2>Financial Statement Report (2021-2023)</h2>
+            
+            <div class="financial-overview">
+                <h3>Financial Performance Overview</h3>
+                <p>As of May 2025, Sterling Bank of Asia (SBA) has published audited financial statements for the years 2021 through 2023, demonstrating strong growth and financial stability.</p>
+            </div>
+
+            <div class="financial-year">
+                <h3>2023 Financial Highlights</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Revenue Growth</h4>
+                        <ul>
+                            <li>Net Sales Revenue: +40.14%</li>
+                            <li>Total Operating Revenue: +37.05%</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Profitability</h4>
+                        <ul>
+                            <li>Operating Profit (EBIT): +99.39%</li>
+                            <li>Net Profit: +20.77%</li>
+                            <li>Operating Profit Margin (ROS): 14.8%</li>
+                            <li>Net Profit Margin: -1.27%</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <h4>Financial Position</h4>
+                        <ul>
+                            <li>Total Assets: +13.55%</li>
+                            <li>Total Equity: +11.86%</li>
+                            <li>Return on Equity (ROE): +0.43%</li>
+                            <li>Debt to Equity Ratio: +21.45%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="financial-year">
+                <h3>2022 Financial Highlights</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Key Metrics</h4>
+                        <ul>
+                            <li>Total Assets: ₱40.32 billion</li>
+                            <li>Ranking: 6th largest thrift bank in the Philippines by total assets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="financial-year">
+                <h3>2021 Financial Highlights</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Key Metrics</h4>
+                        <ul>
+                            <li>Total Assets: ₱36.3 billion</li>
+                            <li>Net Income: ₱400 million</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="financial-resources">
+                <h3>Annual Reports</h3>
+                <div class="resource-links">
+                    <a href="https://www.sterlingbankasia.com/sites/default/files/2022-06/2021SBAAnnualReport.pdf" target="_blank" class="resource-link">
+                        <span class="link-icon">📄</span>
+                        2021 Annual Report
+                    </a>
+                    <a href="https://sterlingbankasia.com/sites/default/files/2023-06/2022SBAAnnualReport_0.pdf" target="_blank" class="resource-link">
+                        <span class="link-icon">📄</span>
+                        2022 Annual Report
+                    </a>
+                    <a href="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-06/2023SBAAnnualReport.pdf" target="_blank" class="resource-link">
+                        <span class="link-icon">📄</span>
+                        2023 Annual Report
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .financial-overview {
+                    margin-bottom: 2rem;
+                    padding: 1.5rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .financial-year {
+                    margin-bottom: 2rem;
+                }
+                
+                .metrics-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                    margin: 1rem 0;
+                }
+                
+                .metric-card {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+                
+                .metric-card h4 {
+                    color: #022d62;
+                    margin-bottom: 1rem;
+                    font-size: 1.2em;
+                }
+                
+                .metric-card ul {
+                    list-style: none;
+                    padding: 0;
+                }
+                
+                .metric-card li {
+                    padding: 0.5rem 0;
+                    color: #555;
+                    border-bottom: 1px solid #eee;
+                }
+                
+                .metric-card li:last-child {
+                    border-bottom: none;
+                }
+                
+                .financial-resources {
+                    margin-top: 3rem;
+                    padding: 2rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .resource-links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .resource-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: #022d62;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .resource-link:hover {
+                    background: #0a4085;
+                }
+                
+                .link-icon {
+                    font-size: 1.2rem;
+                }
+            </style>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team">
+            <h2>Our Team</h2>
+            <div class="team-overview">
+                <p>Meet the dedicated individuals behind this educational project about Sterling Bank of Asia.</p>
+            </div>
+            
+            <div class="team-container">
+                <div class="profile-card">
+                    <div class="profile-image">
+                        <img src="https://scontent.fcgy2-4.fna.fbcdn.net/v/t39.30808-6/499038697_122251992710206684_3418396190661742952_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-3F3kR_FBc9lDYLdNkHeVuo3SFT4X9a26jdIVPhf1rcPLyC6ZnEdR7K1lxq5khSQmRL7EsP8D_yevskFspW0o&_nc_ohc=XsM1E-itSB4Q7kNvwEnuUGM&_nc_oc=Adlnto73o-h3LDp-aK9wmzDoFGJ1NCw787Hr8rE11cKX0Rv1lflc4nbfgvOUcHqL1GA&_nc_zt=23&_nc_ht=scontent.fcgy2-4.fna&_nc_gid=zO1LGSPy5ygS8jxANlKHDg&oh=00_AfJDiJGa5bCUfyo5F6ag_WNoGUVvIKVAhjdIYmCHhdzXdA&oe=682F5B37" alt="Team Member 1">
+                    </div>
+                    <h3>Louie Jay O. Ardiente</h3>
+                    <p>BSBA STUDENT</p>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="profile-image">
+                        <img src="https://scontent.fcgy2-1.fna.fbcdn.net/v/t39.30808-6/467577628_1376778573300672_4506504118445913360_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeGTHQA0xJ1T2yFGkXiGn42jcKJd3_99QvNwol3f_31C88lucitMDqjoBLtypM7nkoRza0_q7HkgTtg1g5v_IhPC&_nc_ohc=CnLGPgNb_KYQ7kNvwFyOpkO&_nc_oc=AdkKB5QIpaMLXdfDdES9qYtwIh8vrtHYzYYdAolXUbCv-_WC2oiUBDcDMafU8MEzjBs&_nc_zt=23&_nc_ht=scontent.fcgy2-1.fna&_nc_gid=66tsOMcHjn9ZR2Sp05EZQA&oh=00_AfKAxnlbj31K4nKJCh4c0btJNiBQStvvu-zrZtzPeYYc7w&oe=682F37D4" alt="Team Member 2">
+                    </div>
+                    <h3>Fil Favian P Tomonglay</h3>
+                    <p>BSBA STUDENT</p>
+                </div>
+            </div>
+
+            <style>
+                .team-overview {
+                    margin-bottom: 2rem;
+                    padding: 1.5rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .team-container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 3rem;
+                    flex-wrap: wrap;
+                }
+                
+                .profile-card {
+                    background: #fff;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                    width: 300px;
+                    transition: transform 0.3s ease;
+                }
+                
+                .profile-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .profile-image {
+                    width: 200px;
+                    height: 200px;
+                    margin: 0 auto 1.5rem;
+                    border-radius: 50%;
+                    overflow: hidden;
+                }
+                
+                .profile-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                
+                .profile-card h3 {
+                    color: #022d62;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .profile-card p {
+                    color: #666;
+                    margin: 0.5rem 0;
+                }
+            </style>
+        </section>
+
+        <!-- References -->
+        <section id="references">
+            <h2>References</h2>
+            
+            <div class="references-overview">
+                <p>This section contains all the sources and references used in creating this educational website about Sterling Bank of Asia.</p>
+            </div>
+            
+            <div class="references-container">
+                <div class="reference-category">
+                    <h3>Official Documents and Reports</h3>
+                    <ul>
+                        <li>
+                            <a href="https://www.sterlingbankasia.com/sites/default/files/2022-06/2021SBAAnnualReport.pdf" target="_blank">
+                                Sterling Bank of Asia Annual Report 2021
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://sterlingbankasia.com/sites/default/files/2023-06/2022SBAAnnualReport_0.pdf" target="_blank">
+                                Sterling Bank of Asia Annual Report 2022
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://sbamedia.sterlingbankasia.com/sites/default/files/2024-06/2023SBAAnnualReport.pdf" target="_blank">
+                                Sterling Bank of Asia Annual Report 2023
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="reference-category">
+                    <h3>Financial Data Sources</h3>
+                    <ul>
+                        <li>EMIS Company Profile - Financial Performance Data</li>
+                        <li>Business Wire - Financial News and Updates</li>
+                        <li>Wikipedia - Company Information and Rankings</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-category">
+                    <h3>News and Media</h3>
+                    <ul>
+                        <li>
+                            <a href="https://manilastandard.net/spotlight/314582384/sterling-bank-of-asia-recognized-as-one-of-san-juan-citys-top-10-taxpayers.html" target="_blank">
+                                Manila Standard - Top 10 Taxpayer Recognition
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.julianplusbethany.com/2024/08/sterling-bank-of-asia-recognized-as-one.html" target="_blank">
+                                Julian Plus Bethany - News Coverage
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="reference-category">
+                    <h3>Official Website Resources</h3>
+                    <ul>
+                        <li>
+                            <a href="https://www.sterlingbankasia.com" target="_blank">
+                                Sterling Bank of Asia Official Website
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://sterlingbankasia.com/corporate-governance" target="_blank">
+                                Corporate Governance Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://sterlingbankasia.com/company-disclosures" target="_blank">
+                                Company Disclosures
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <style>
+                .references-overview {
+                    margin-bottom: 2rem;
+                    padding: 1.5rem;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .references-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                }
+                
+                .reference-category {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+                
+                .reference-category h3 {
+                    color: #022d62;
+                    margin-bottom: 1rem;
+                    font-size: 1.2em;
+                }
+                
+                .reference-category ul {
+                    list-style: none;
+                    padding: 0;
+                }
+                
+                .reference-category li {
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid #eee;
+                }
+                
+                .reference-category li:last-child {
+                    border-bottom: none;
+                }
+                
+                .reference-category a {
+                    color: #0056b3;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                }
+                
+                .reference-category a:hover {
+                    color: #003d82;
+                    text-decoration: underline;
+                }
+            </style>
+        </section>
+
+        <!-- Disclaimer -->
+        <section id="disclaimer">
+            <h2>Disclaimer</h2>
+            
+            <div class="disclaimer-content">
+                <div class="disclaimer-card">
+                    <h3>Educational Purpose</h3>
+                    <p>This website was created solely for educational purposes. The information presented here is intended for academic use and does not represent the official website or views of Sterling Bank of Asia.</p>
+                </div>
+                
+                <div class="disclaimer-card">
+                    <h3>Information Accuracy</h3>
+                    <p>All data and information presented on this website might not be current or accurate. While efforts have been made to ensure the accuracy of the information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information.</p>
+                </div>
+                
+                <div class="disclaimer-card">
+                    <h3>Non-Commercial Use</h3>
+                    <p>This is not a commercial website and is not affiliated with, endorsed by, or in any way officially connected with Sterling Bank of Asia or any of its subsidiaries or affiliates.</p>
+                </div>
+                
+                <div class="disclaimer-card">
+                    <h3>Official Resources</h3>
+                    <p>For accurate and up-to-date information about Sterling Bank of Asia, please visit their official website at <a href="https://www.sterlingbankasia.com" target="_blank">www.sterlingbankasia.com</a>.</p>
+                </div>
+            </div>
+
+            <style>
+                .disclaimer-content {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin-top: 2rem;
+                }
+                
+                .disclaimer-card {
+                    background: #fff;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+                
+                .disclaimer-card h3 {
+                    color: #022d62;
+                    margin-bottom: 1rem;
+                    font-size: 1.2em;
+                }
+                
+                .disclaimer-card p {
+                    color: #555;
+                    line-height: 1.6;
+                }
+                
+                .disclaimer-card a {
+                    color: #0056b3;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                }
+                
+                .disclaimer-card a:hover {
+                    color: #003d82;
+                    text-decoration: underline;
+                }
+            </style>
+        </section>
+
+        <button id="scrollToTop" onclick="topFunction()" title="Go to top">↑</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all sections and add page controls
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links li a');
+            const sectionIds = Array.from(sections).map(section => section.id);
+            
+            // Add navigation controls to each section
+            sections.forEach(section => {
+                const currentIndex = sectionIds.indexOf(section.id);
+                const prevId = currentIndex > 0 ? sectionIds[currentIndex - 1] : null;
+                const nextId = currentIndex < sectionIds.length - 1 ? sectionIds[currentIndex + 1] : null;
+                
+                const controls = document.createElement('div');
+                controls.className = 'page-controls';
+                
+                const prevButton = document.createElement('button');
+                prevButton.innerText = '← Previous';
+                prevButton.className = 'prev-btn';
+                if (!prevId) {
+                    prevButton.disabled = true;
+                } else {
+                    prevButton.addEventListener('click', () => navigateToSection(prevId));
+                }
+                
+                const nextButton = document.createElement('button');
+                nextButton.innerText = 'Next →';
+                nextButton.className = 'next-btn';
+                if (!nextId) {
+                    nextButton.disabled = true;
+                } else {
+                    nextButton.addEventListener('click', () => navigateToSection(nextId));
+                }
+                
+                controls.appendChild(prevButton);
+                controls.appendChild(nextButton);
+                section.appendChild(controls);
+            });
+            
+            // Get the button
+            const mybutton = document.getElementById("scrollToTop");
+            mybutton.style.display = "block";
+            
+            // When the user clicks on the button, scroll to the top of the current section
+            function topFunction() {
+                const activeSection = document.querySelector('section.active');
+                if (activeSection) {
+                    activeSection.scrollTop = 0;
+                }
+            }
+            mybutton.addEventListener('click', topFunction);
+            
+            // Show the first section by default
+            showSection('home');
+            
+            // Handle navigation link clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    navigateToSection(sectionId);
+                });
+            });
+            
+            // Function to navigate to a section
+            function navigateToSection(sectionId) {
+                // Show loading indicator
+                const loadingSpinner = document.querySelector('.loading-spinner');
+                loadingSpinner.classList.add('show');
+                
+                // Wait a tiny bit to show the loading spinner (better UX)
+                setTimeout(() => {
+                    // Update active state in navigation
+                    navLinks.forEach(link => {
+                        const li = link.parentElement;
+                        if (link.getAttribute('data-section') === sectionId) {
+                            li.classList.add('active');
+                        } else {
+                            li.classList.remove('active');
+                        }
+                    });
+                    
+                    // Show the selected section
+                    showSection(sectionId);
+                    
+                    // Update URL hash
+                    history.pushState(null, null, `#${sectionId}`);
+                    
+                    // Hide loading spinner
+                    loadingSpinner.classList.remove('show');
+                }, 200);
+            }
+            
+            // Function to show a specific section
+            function showSection(sectionId) {
+                sections.forEach(section => {
+                    if (section.id === sectionId) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Handle back/forward browser buttons
+            window.addEventListener('popstate', function() {
+                const hash = window.location.hash.replace('#', '');
+                if (hash) {
+                    navigateToSection(hash);
+                } else {
+                    // Default to home if no hash
+                    navigateToSection('home');
+                }
+            });
+            
+            // Check hash on page load
+            if (window.location.hash) {
+                const hash = window.location.hash.replace('#', '');
+                navigateToSection(hash);
+            }
+        });
+    </script>
+</body>
+</html> 
